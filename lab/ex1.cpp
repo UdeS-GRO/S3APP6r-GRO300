@@ -20,6 +20,9 @@ int main(int argc, char** argv)
     // divisant le travail en quatre fils indépendants.
     // La somme devrait être 50005000.
     // On répète le travail 100 fois pour vérifier si le résultat est constant.
+    // On compte également le nombre d'essais valides.
+    
+    int succes = 0;
      
     for (int i = 0; i < 100; ++i) {
         somme_ = 0;
@@ -50,7 +53,13 @@ int main(int argc, char** argv)
         // somme finale.
         
         printf("Somme: %d\n", somme_);
+
+        if (somme_ == 50005000) {
+            succes++;
+        }
     }
+
+    printf("Nombre de sommes justes (devraient être 100) : %d", succes);
 
     return 0;
 }
