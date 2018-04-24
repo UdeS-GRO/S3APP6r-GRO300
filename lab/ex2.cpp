@@ -2,7 +2,6 @@
 #include <thread>
 #include <queue>
 #include <cstdlib>      // rand
-#include <unistd.h>     // usleep
 
 namespace {
     std::queue<int> queue_;
@@ -28,7 +27,8 @@ void prod()
         int r = rand() % 1001 + 1000;
         add_to_queue(r);
 
-        usleep(50 * 1000); // Bloque le fil pour 50 ms.
+        // Bloque le fil pour 50 ms:
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
     add_to_queue(0);
