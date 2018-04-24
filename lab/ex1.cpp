@@ -59,7 +59,7 @@ int main(int argc, char** argv)
         }
     }
 
-    printf("Nombre de sommes justes (devraient être 100) : %d", succes);
+    printf("Nombre de sommes justes (devrait être 100) : %d", succes);
 
     return 0;
 }
