@@ -152,7 +152,7 @@ void send_state_data(){
 }
 
 void run_PID(){
-  /* Fonction du controlleur de position */
+  /* Fonction du controlleur de vitesse */
   
   /* TODO: Code de contrôle du PID */
 
