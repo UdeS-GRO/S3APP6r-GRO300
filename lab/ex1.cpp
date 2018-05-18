@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <thread>
+#include <mutex>
 
 // Espace anonyme pour les variables globales et partagées :
 namespace {
@@ -59,7 +60,7 @@ int main(int argc, char** argv)
         }
     }
 
-    printf("Nombre de sommes justes (devrait être 100) : %d", succes);
+    printf("Nombre de sommes justes (devrait être 100) : %d\n.", succes);
 
     return 0;
 }
