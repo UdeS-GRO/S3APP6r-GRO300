@@ -20,6 +20,7 @@ void yyerror(const char* err)
     Instruction     ins;
     Register        reg;
     std::string*    string;
+    std::string*    addr;
     float           cons;
 }
 
@@ -51,11 +52,9 @@ expr    : TOP_ADD TREG  TCOMMA TREG     { $$ = new Exp_ADD($<reg>2, $<reg>4); }
         | TOP_SUB TREG  TCOMMA TREG     { $$ = new Exp_SUB($<reg>2, $<reg>4); }
         | TOP_MUL TREG  TCOMMA TREG     { $$ = new Exp_MUL($<reg>2, $<reg>4); }
         | TOP_DIV TREG  TCOMMA TREG     { $$ = new Exp_DIV($<reg>2, $<reg>4); }
-        /*
-        | TOP_LDA TREG  TCOMMA TADDR    { $$ = new Exp_LDA($<reg>2, $<addr>4); }
-        | TOP_STO TADDR TCOMMA TREG     { $$ = new Exp_STO($<addr>2, $<reg>4); }
-        | TOP_LDC TREG  TCOMMA TCONS    { $$ = new Exp_LDC($<addr>2, $<cons>4); }
-        */
+        | TOP_LDA TREG  TCOMMA TADDR    { $$ = new Exp_LDA($<reg>2, *$<addr>4); }
+        | TOP_STO TADDR TCOMMA TREG     { $$ = new Exp_STO(*$<addr>2, $<reg>4); }
+        | TOP_LDC TREG  TCOMMA TCONS    { $$ = new Exp_LDC($<reg>2, $<cons>4); }
         ;
 
 reg     : TREG;                         

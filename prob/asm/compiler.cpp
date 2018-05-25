@@ -6,7 +6,8 @@ extern int yyparse();
 
 namespace vm
 {
-    std::array<float, 4> registers_;
+    Registers   CPU::registers;
+    Memory      CPU::memory;
 }
 
 Expressions& prog()
@@ -22,9 +23,6 @@ int main(int argc, char** argv)
     
     yyparse();
 
-    registers_[R1] = 1.0;
-    registers_[R2] = 1.0;
-
     const Expressions& program = prog();
     for (Expressions::const_iterator exp = program.begin();
          exp != program.end();
@@ -34,6 +32,6 @@ int main(int argc, char** argv)
     }
     printf("Registers: \n");
     for (int i = 0; i < 4; ++i) {
-        printf("R%d: %f\n", i + 1, registers_[i]);
+        printf("R%d: %f\n", i + 1, CPU::registers[i]);
     }
 }
