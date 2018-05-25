@@ -30,9 +30,5 @@ void Compiler::run()
         Expression* e = *exp;
         e->run();
     }
-    printf("Registers: \n");
-    for (int i = 0; i < 4; ++i) {
-        printf("R%d: %f\n", i + 1, CPU::registers[i]);
-    }
 }
 

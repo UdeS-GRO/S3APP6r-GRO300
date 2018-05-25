@@ -17,8 +17,12 @@ add_library(compiler
     ${BISON_parser_OUTPUTS}
 )
 
+add_executable(compiler_test
+    compiler_test.cpp
+)
+target_link_libraries(compiler_test compiler)
+
 add_executable(machine
     machine.cpp
 )
-
 target_link_libraries(machine compiler)

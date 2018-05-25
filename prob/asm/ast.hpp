@@ -6,6 +6,8 @@
 #include <array>
 #include <unordered_map>
 
+#include "vm.hpp"
+
 //#include "parser.hpp"
 
 //extern int yyparse();
@@ -21,14 +23,6 @@ namespace vm
         LDA,
         STO,
         LDC
-    };
-
-    enum Register
-    {
-        R1 = 0,
-        R2,
-        R3,
-        R4
     };
 
     struct Expression

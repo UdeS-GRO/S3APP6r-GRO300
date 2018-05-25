@@ -29,5 +29,5 @@ LDC                     return TOP_LDC;
 ","                     return TCOMMA;
 R[1-4]                  yylval.reg = (Register)(atoi(&yytext[1]) - 1); return TREG;
 \$[a-zA-Z0-9_]+         yylval.addr = new std::string(&yytext[1]); return TADDR;
-[0-9]+\.[0-9]+          yylval.cons = atof(yytext); return TCONS;
+-?[0-9]+\.[0-9]+          yylval.cons = atof(yytext); return TCONS;
 %%
