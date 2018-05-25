@@ -1,21 +1,10 @@
 #include <cstdio>
+
 #include "ast.hpp"
+#include "vm.hpp"
+
 #include "parser.hpp"
-
 extern int yyparse();
-
-namespace vm
-{
-    Registers   CPU::registers;
-    Memory      CPU::memory;
-}
-
-Expressions& prog()
-{
-    static Expressions prog_;
-
-    return prog_;
-}
 
 int main(int argc, char** argv)
 {

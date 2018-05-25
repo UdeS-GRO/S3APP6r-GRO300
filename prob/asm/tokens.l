@@ -1,6 +1,7 @@
 %{
 
 #include <string>
+#include "vm.hpp"
 #include "ast.hpp"
 #include "parser.hpp"
 
@@ -9,7 +10,7 @@ extern "C" int yywrap()
     return 1; // Stop at EOF.
 }
 
-#define SAVE_TOKEN yylval.string = new std::string(yytext)
+using namespace vm;
 
 %}
 

@@ -1,3 +1,4 @@
+
 %{
 
 #include <iostream>
@@ -11,17 +12,19 @@ void yyerror(const char* err)
     std::cerr << "Error: " << err << std::endl;
 }
 
+using namespace vm;
+
 %}
 
 
 %union {
-    Expressions*    exprs;
-    Expression*     expr;
-    Instruction     ins;
-    Register        reg;
-    std::string*    string;
-    std::string*    addr;
-    float           cons;
+    vm::Expressions*    exprs;
+    vm::Expression*     expr;
+    vm::Instruction     ins;
+    vm::Register        reg;
+    std::string*        string;
+    std::string*        addr;
+    float               cons;
 }
 
 

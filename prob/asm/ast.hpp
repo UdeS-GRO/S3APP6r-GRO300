@@ -1,170 +1,110 @@
+#ifndef AST_HPP
+#define AST_HPP
+
 #include <vector>
 #include <iostream>
 #include <array>
 #include <unordered_map>
 
+//#include "parser.hpp"
+
+//extern int yyparse();
+
 namespace vm
 {
-    typedef std::array<float, 4>                    Registers;
-    typedef std::unordered_map<std::string, float>  Memory;
-
-    struct CPU
+    enum Instruction
     {
-        static Registers    registers;
-        static Memory       memory;
+        ADD,
+        SUB,
+        MUL,
+        DIV,
+        LDA,
+        STO,
+        LDC
     };
-};
 
-enum Instruction
-{
-    ADD,
-    SUB,
-    MUL,
-    DIV,
-    LDA,
-    STO,
-    LDC
-};
-
-enum Register
-{
-    R1 = 0,
-    R2,
-    R3,
-    R4
-};
-
-struct Expression
-{
-    virtual void run()
+    enum Register
     {
-        printf("NOP\n");
-    }
-};
+        R1 = 0,
+        R2,
+        R3,
+        R4
+    };
 
-struct Exp_2R: public Expression
-{
-    Exp_2R(Register r1, Register r2):
-        r1_(r1), r2_(r2)
+    struct Expression
     {
-    }
+        virtual void run();
+    };
 
-    Register r1_;
-    Register r2_;
-};
-
-struct Exp_ADD: public Exp_2R
-{
-    Exp_ADD(Register r1, Register r2): Exp_2R(r1, r2)
-    {}
-
-    void run()
+    struct Exp_2R: public Expression
     {
-        using namespace vm;
-        CPU::registers[r1_] = CPU::registers[r1_] + CPU::registers[r2_];
-    }
-};
+        Register r1_;
+        Register r2_;
+      
+        Exp_2R(Register r1, Register r2);
+    };
 
-struct Exp_SUB: public Exp_2R
-{
-    Exp_SUB(Register r1, Register r2): Exp_2R(r1, r2)
-    {}
-
-    void run()
+    struct Exp_ADD: public Exp_2R
     {
-        using namespace vm;
-        CPU::registers[r1_] = CPU::registers[r1_] - CPU::registers[r2_];
-    }
-};
+        Exp_ADD(Register r1, Register r2);
 
-struct Exp_MUL: public Exp_2R
-{
-    Exp_MUL(Register r1, Register r2): Exp_2R(r1, r2)
-    {}
+        void run();
+    };
 
-    void run()
+    struct Exp_SUB: public Exp_2R
     {
-        using namespace vm;
-        CPU::registers[r1_] = CPU::registers[r1_] * CPU::registers[r2_];
-    }
-};
+        Exp_SUB(Register r1, Register r2);
 
-struct Exp_DIV: public Exp_2R
-{
-    Exp_DIV(Register r1, Register r2): Exp_2R(r1, r2)
-    {}
+        void run();
+    };
 
-    void run()
+    struct Exp_MUL: public Exp_2R
     {
-        using namespace vm;
-        CPU::registers[r1_] = CPU::registers[r1_] / CPU::registers[r2_];
-    }
-};
+        Exp_MUL(Register r1, Register r2);
 
-struct Exp_LDA: public Expression
-{
-    Register    r1_;
-    std::string addr_;
+        void run();
+    };
 
-    Exp_LDA(Register r1, const std::string& addr):
-        r1_(r1),
-        addr_(addr)
-    {}
-
-    void run()
+    struct Exp_DIV: public Exp_2R
     {
-        using namespace vm;
+        Exp_DIV(Register r1, Register r2);
 
-        Memory::iterator i = CPU::memory.find(addr_);
-        if (i == CPU::memory.end()) {
-            std::cerr   << "Runtime error: Adress undefined: " 
-                        << addr_ << std::endl;
-            return;
-        }
+        void run();
+    };
 
-        CPU::registers[r1_] = i->second;
-    }
-
-};
-
-struct Exp_STO: public Expression
-{
-    std::string addr_;
-    Register    r1_;
-
-    Exp_STO(const std::string& addr, Register r1):
-        addr_(addr),
-        r1_(r1)
-    {}
-
-    void run()
+    struct Exp_LDA: public Expression
     {
-        using namespace vm;
+        Register    r1_;
+        std::string addr_;
 
-        CPU::memory[addr_] = CPU::registers[r1_];
-    }
+        Exp_LDA(Register r1, const std::string& addr);
 
-};
+        void run();
+    };
 
-struct Exp_LDC: public Expression
-{
-    Register    r1_;
-    float       val_;
-
-    Exp_LDC(Register r1, float val):
-        r1_(r1),
-        val_(val)
-    {}
-
-    void run()
+    struct Exp_STO: public Expression
     {
-        using namespace vm;
+        std::string addr_;
+        Register    r1_;
 
-        CPU::registers[r1_] = val_;
-    }
+        Exp_STO(const std::string& addr, Register r1);
 
-};
-typedef std::vector<Expression*> Expressions;
+        void run();
+    };
 
-Expressions& prog(); // returns a pointer to the current program (expressions).
+    struct Exp_LDC: public Expression
+    {
+        Register    r1_;
+        float       val_;
 
+        Exp_LDC(Register r1, float val);
+
+        void run();
+    };
+
+    typedef std::vector<Expression*> Expressions;
+    Expressions& prog(); // returns a pointer to the current program (expressions).
+
+}
+
+#endif
