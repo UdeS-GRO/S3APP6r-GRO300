@@ -1,17 +1,28 @@
 #include <cstdio>
 
+#include "compiler.hpp"
+
 #include "ast.hpp"
 #include "vm.hpp"
 
 #include "parser.hpp"
-extern int yyparse();
 
-int main(int argc, char** argv)
+extern int      yyparse();
+extern FILE*    yyin;
+
+using namespace vm;
+
+Compiler::Compiler(const std::string& fname)
 {
-    using namespace vm;
-    
-    yyparse();
+    if (!fname.empty()) {
+        yyin = fopen(fname.c_str(), "r");
+    }
 
+    yyparse();
+}
+
+void Compiler::run()
+{
     const Expressions& program = prog();
     for (Expressions::const_iterator exp = program.begin();
          exp != program.end();
@@ -24,3 +35,4 @@ int main(int argc, char** argv)
         printf("R%d: %f\n", i + 1, CPU::registers[i]);
     }
 }
+

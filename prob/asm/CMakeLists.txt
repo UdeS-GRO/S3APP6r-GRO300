@@ -9,10 +9,16 @@ add_flex_bison_dependency(lexer parser)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_SOURCE_DIR})
 
-add_executable(compiler
+add_library(compiler
     ast.cpp
     compiler.cpp
     vm.cpp
     ${FLEX_lexer_OUTPUTS}
     ${BISON_parser_OUTPUTS}
 )
+
+add_executable(machine
+    machine.cpp
+)
+
+target_link_libraries(machine compiler)
