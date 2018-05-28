@@ -1,3 +1,4 @@
+# PID with P = -0.5, I = 0, D = 0
 LDC R1,     -0.5
 STO $K_P,   R1
 LDC R1,     1.0

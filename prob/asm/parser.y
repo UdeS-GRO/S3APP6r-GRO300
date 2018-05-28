@@ -43,7 +43,7 @@ using namespace vm;
 
 %type   <expr>  expr;
 %type   <exprs> exprs;
-%type   <reg>   reg;
+// %type   <reg>   reg;
 
 %%
 
@@ -60,9 +60,10 @@ expr    : TOP_ADD TREG  TCOMMA TREG     { $$ = new Exp_ADD($<reg>2, $<reg>4); }
         | TOP_LDC TREG  TCOMMA TCONS    { $$ = new Exp_LDC($<reg>2, $<cons>4); }
         ;
 
-reg     : TREG;                         
-addr    : TADDR;
-cpns    : TCONS;
+empty   : TEOL {} ;
 
+//reg     : TREG;
+//addr    : TADDR;
+//cpns    : TCONS;
 
 %%

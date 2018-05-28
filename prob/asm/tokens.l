@@ -18,7 +18,7 @@ using namespace vm;
 
 %%
 [ \t]                   ;
-\n                      return TEOL;
+\n+                     return TEOL;
 ADD                     return TOP_ADD;
 SUB                     return TOP_SUB;
 MUL                     return TOP_MUL;
@@ -30,4 +30,6 @@ LDC                     return TOP_LDC;
 R[1-4]                  yylval.reg = (Register)(atoi(&yytext[1]) - 1); return TREG;
 \$[a-zA-Z0-9_]+         yylval.addr = new std::string(&yytext[1]); return TADDR;
 -?[0-9]+\.[0-9]+          yylval.cons = atof(yytext); return TCONS;
+#.*                     ;
+^#.*\n+                 ;
 %%
