@@ -38,7 +38,7 @@ public:
     void onPeriodicUpdate() override {
 
         //Main periodic loop
-        qDebug() << "Periodic loop (nothing for now)";
+       //qDebug() << "Periodic loop (nothing for now)";
 
     }
 };

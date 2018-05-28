@@ -21,7 +21,7 @@ namespace {
 void robotdiag::init()
 {
     // Démarre le simulateur:
-    robotsim::init(1, 10, 3);   // Spécifie le nombre de moteurs à simuler (8)
+    // robotsim::init(1, 10, 3);   // Spécifie le nombre de moteurs à simuler (8)
                                 // et le délai moyen entre les événements
                                 // (10 ms) plus ou moins un nombre aléatoire
                                 // (3 ms).
