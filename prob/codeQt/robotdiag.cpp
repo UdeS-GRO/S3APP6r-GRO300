@@ -4,6 +4,8 @@
 #include <queue>
 #include <cstdio>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 
 using namespace robotdiag;
 
@@ -58,7 +60,7 @@ void robotdiag::export_loop()
     }
 
     // En-tête du fichier CSV, respectez le format.
-    fprintf(out, "motor_id;pos;vel\n");
+    fprintf(out, "motor_id;t;pos;vel;cmd\n");
 
     while (run_) {
         while (!queue_.empty()) {
