@@ -21,7 +21,7 @@ namespace {
 void robotdiag::init()
 {
     // Démarre le simulateur:
-    // robotsim::init(1, 10, 3);   // Spécifie le nombre de moteurs à simuler (8)
+    robotsim::init(8, 10, 3);   // Spécifie le nombre de moteurs à simuler (8)
                                 // et le délai moyen entre les événements
                                 // (10 ms) plus ou moins un nombre aléatoire
                                 // (3 ms).
@@ -42,11 +42,10 @@ void robotdiag::push_event(RobotState evt)
     // Ajoute le dernier événement à la file d'exportation
     queue_.push(evt);
 
-    //printf("Motor id: %d\n", evt.id);
 }
 
 // Fonction d'exportation vers CSV.
-// Vérifie à toutes les 100 ms si de nouvelles données sont disponibles.
+// Vérifie constamment si de nouvelles données sont disponibles.
 // Si c'est le cas, les exportent ligne par ligne dans
 // "/tmp/robotdiag.csv".
 void robotdiag::export_loop()
@@ -69,7 +68,6 @@ void robotdiag::export_loop()
             // TODO: Format csv à compléter 
             fprintf(out, "%d;%f;\n", evt.id, evt.cur_pos);
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     fclose(out);
