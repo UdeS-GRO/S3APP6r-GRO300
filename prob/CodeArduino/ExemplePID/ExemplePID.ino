@@ -37,13 +37,15 @@ const float ENC_TO_VEL  = 1.0 / (MOTOR_ENC_CPR * MOTOR_GB_RATIO * DT);
 int motor1_pwm_   = 0;              // Sortie en PWM du moteur 1 (0..255)
 int motor2_pwm_   = 0;              // Sortie en PWM du moteur 2
 
-// Encodeurs
+// Encodeurs (compteur entre cycles)
 signed long motor1_enc_count_ = 0;
 signed long motor2_enc_count_ = 0;  
 
 // État du moteur à contrôler
+float t_        = 0.0;              // Temps depuis le démarrage, en s.
 float cur_vel_  = 0.0;              // Vitesse en tr/s.
 float des_vel_  = 0.0;              // Consigne (vitesse désirée) en tr/s.
+float cur_pos_  = 0.0;              // Position, en nombre de tours.
 
 // Configuration du PID
 float K_P = 0.0;                    // Facteur P du PID
@@ -184,19 +186,25 @@ void runPID(){
 
 void updateState(){
 
+    // Temps depuis le démarrage:
+    t_ += DT;
+    
     // Lecture des pulses d'encodeurs
     motor1_enc_count_ = s3gro.lireEncodeur(1); 
     motor2_enc_count_ = s3gro.lireEncodeur(2);
     
     cur_vel_ = ENC_TO_VEL * (motor1_enc_count_);
-
+    cur_pos_ += cur_vel_ * DT;  // Intégrateur simple de la position.
+    
     s3gro.clearEncodeurCount();
- 
+
+    state_msg_["ts"]      = t_;
     state_msg_["enc_1"]   = motor1_enc_count_;
     state_msg_["enc_2"]   = motor2_enc_count_;
     state_msg_["des_vel"] = des_vel_;
 
-    // TODO: Variables d'états manquantes: vitesse, commande, PID.
+    // TODO: Variables d'états manquantes: position, commande.
+    
     
     sendStateData();
     
