@@ -5,6 +5,8 @@
 #include "robotdiag.h"
 
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 class YourMainWindow : public MainWindow {
 public:
@@ -39,12 +41,14 @@ public:
         double v = 0.0; // velocity
         double c = 0.0; // command.
 
-        QJsonDocument jsonResponse = QJsonDocument::fromJson(msgBuffer.toUtf8());
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(msg.toUtf8());
         if(!jsonResponse.isEmpty()){
             QJsonObject jsonObj = jsonResponse.object();
 
-
+            t = jsonObj["ts"].toDouble();
+            p = jsonObj["cur_pos"].toDouble();
             v = jsonObj["cur_vel"].toDouble();
+            c = jsonObj["cur_cmd"].toDouble();
         }
 
         robotdiag::RobotState evt;
