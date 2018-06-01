@@ -203,7 +203,7 @@ void updateState(){
     state_msg_["enc_2"]   = motor2_enc_count_;
     state_msg_["des_vel"] = des_vel_;
 
-    // TODO: Variables d'états manquantes: position, commande.
+    // TODO: Variables d'états manquantes: position, vitesse, commande.
     
     
     sendStateData();
