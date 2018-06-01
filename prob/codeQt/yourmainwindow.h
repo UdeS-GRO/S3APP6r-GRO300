@@ -10,6 +10,8 @@ class YourMainWindow : public MainWindow {
 public:
     static const int UPDATE_RATE_MS = 1000;
 
+    float t_ = 0.0;
+
     YourMainWindow()
         : MainWindow("/dev/ttyACM0", UPDATE_RATE_MS) // port name, update rate
     {
@@ -31,14 +33,33 @@ public:
         //Function executed on message received
         qDebug() << "Message received from arduino" << msg;
 
-        // TODO: robotdiag::push_event
+        // Décodage.
+        double t = 0.0; // timestamp
+        double p = 0.0; // position
+        double v = 0.0; // velocity
+        double c = 0.0; // command.
 
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(msgBuffer.toUtf8());
+        if(!jsonResponse.isEmpty()){
+            QJsonObject jsonObj = jsonResponse.object();
+
+
+            v = jsonObj["cur_vel"].toDouble();
+        }
+
+        robotdiag::RobotState evt;
+        evt.id      = 0;  // Moteur réel.
+        evt.t       = t;
+        evt.cur_pos = p;
+        evt.cur_vel = v;
+        evt.cur_cmd = c;
+        robotdiag::push_event(evt);
     }
 
     void onPeriodicUpdate() override {
 
         //Main periodic loop
-       //qDebug() << "Periodic loop (nothing for now)";
+        //qDebug() << "Periodic loop (nothing for now)";
 
     }
 };
