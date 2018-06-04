@@ -27,5 +27,14 @@ $ git clone https://github.com/UdeS-GRO/S3APP4r-GRO300 .
 ## Laboratoire 
 
 L'environnement de départ pour le laboratoire se trouve dans le dossier [lab/](lab/).
+Or, la partie 2 sur l'Arduino doit être fait à partir du code de la
+problématique.
 
-## APP
+## Problématique
+
+L'environnement de départ pour la problématique se trouve dans le dossier [prob/](prob/).
+La structure est très similaire à ce qu'y vous a été fourni dans le cadre du
+projet de session.
+En effet, le code Arduino dépend des mêmes librairies pour la communication avec
+les moteurs, les capteurs, et le RaspberryPi par le port série.
+

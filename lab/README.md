@@ -20,3 +20,5 @@ exécutables doivent être recompilés après chaque modification.
 
 ## Partie 2 - PID sur Arduino
 
+Pour cette partie, vous devez plutôt utiliser le code fourni pour la
+problématique dans le dossier [prob/](../prob/).
