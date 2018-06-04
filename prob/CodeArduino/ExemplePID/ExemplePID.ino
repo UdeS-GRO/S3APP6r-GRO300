@@ -24,14 +24,14 @@
 #define MOTOR_ENC_CPR       300     // Nombre de cycles par tour de l'encodeur
 #define MOTOR_GB_RATIO      100.0   // Ratio de la transmission du moteur (100:1)
           
-
-/* Variables globales */
-Fonctions_GRO s3gro;                // Objet pour l'accès aux actionneurs/capteurs
-
 // Temps (en s) d'un cycle :
 const float DT          = UPDATE_PERIOD_MS / 1000.0;
 // Facteur de conversion encodeur -> tr/s :
 const float ENC_TO_VEL  = 1.0 / (MOTOR_ENC_CPR * MOTOR_GB_RATIO * DT);
+
+
+/* Variables globales */
+Fonctions_GRO s3gro;                // Objet pour l'accès aux actionneurs/capteurs
 
 // Moteurs
 int motor1_pwm_   = 0;              // Sortie en PWM du moteur 1 (0..255)
