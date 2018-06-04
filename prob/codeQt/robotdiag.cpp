@@ -19,7 +19,7 @@ namespace {
     std::thread export_thread_;
 }
 
-// Fonction d'inialisation appellée une fois au démarrage.
+// Fonction d'initialisation appelée une fois au démarrage.
 void robotdiag::init()
 {
     // Démarre le simulateur:
