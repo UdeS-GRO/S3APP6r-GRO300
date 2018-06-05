@@ -20,3 +20,9 @@ du projet de conception.
 Or, la solution de la problématique peut être entièrement contenue dans ces deux
 fichiers.
 
+## Analyse du temps d'exécution du PID
+
+Pour vous aidez dans l'écriture du pseudo-code vous permettant d'analyser le
+temps d'exécution de votre PID, un assembleur primitif pour la machine virtuelle
+simplifiée est disponible dans le sous-dossier [vm_asm](vm_asm/).
+
