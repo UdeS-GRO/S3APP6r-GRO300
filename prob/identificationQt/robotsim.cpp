@@ -18,12 +18,12 @@ namespace {
 
     bool run_;
 
+    RobotDiag* diag_;
+
     std::atomic<int> event_sum_;
 
     void sim_loop(const Motor& new_motor)
     {
-        RobotDiag diag;
-
         Motor motor = new_motor;
 
         int produced = 0;
@@ -40,7 +40,7 @@ namespace {
             evt.id      = motor.id;
             evt.t       = t;
             evt.cur_pos = p;
-            diag.push_event(evt);
+            diag_->push_event(evt);
 
             produced++;
             std::this_thread::sleep_for(std::chrono::milliseconds(motor.delay));
@@ -59,6 +59,8 @@ void robotsim::init(RobotDiag* diag,
                     int delay = 10,
                     int d_delta = 3)
 {
+    diag_ = diag;
+
     run_ = true;
     event_sum_.store(0);
 
