@@ -1,5 +1,5 @@
-#include "robotsim.h"
-#include "robotdiag.h"
+#include "robotsim.hpp"
+#include "robotdiag.hpp"
 #include <thread>
 #include <vector>
 #include <atomic>
@@ -7,6 +7,7 @@
 #include <cmath>
 
 using namespace robotsim;
+using namespace s3gro;
 
 namespace {
     struct Motor
@@ -21,6 +22,8 @@ namespace {
 
     void sim_loop(const Motor& new_motor)
     {
+        RobotDiag diag;
+
         Motor motor = new_motor;
 
         int produced = 0;
@@ -33,11 +36,11 @@ namespace {
             float p = 0.5 * sin(float(motor.delay/10) * t);
             t += td;
 
-            robotdiag::RobotState evt;
+            RobotState evt;
             evt.id      = motor.id;
             evt.t       = t;
             evt.cur_pos = p;
-            robotdiag::push_event(evt);
+            diag.push_event(evt);
 
             produced++;
             std::this_thread::sleep_for(std::chrono::milliseconds(motor.delay));
@@ -51,7 +54,10 @@ namespace {
     std::vector<std::thread> threads_;
 }
 
-void robotsim::init(int n_motors, int delay = 10, int d_delta = 3)
+void robotsim::init(RobotDiag* diag,
+                    int n_motors,
+                    int delay = 10,
+                    int d_delta = 3)
 {
     run_ = true;
     event_sum_.store(0);

@@ -1,7 +1,9 @@
-#include "robotdiag.h"
-#include "robotsim.h"
+#include "../robotdiag.hpp"
+#include "../robotsim.hpp"
 #include <signal.h>
 #include <unistd.h>
+
+using namespace s3gro;
 
 namespace {
     bool run_;
@@ -19,13 +21,11 @@ int main(int argc, char** argv)
 
     signal(SIGINT, sighandler);
 
-    robotdiag::init();
+    RobotDiag diag;
 
     while (run_) {
         pause();
     }
-
-    robotdiag::stop_and_join();
 
     return 0;
 }
