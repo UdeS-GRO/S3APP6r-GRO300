@@ -4,12 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport
-CONFIG   += c++11
+QT       += core gui serialport charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = exemplePID
+TARGET = identification
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -28,17 +27,16 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         serialprotocol.cpp \
-        robotsim.cpp \
-        robotdiag.cpp \
-        plot.cpp
+        csvwriter.cpp \
+    robotdiag.cpp \
+    robotsim.cpp
 
 HEADERS += \
         mainwindow.h \
-    yourmainwindow.h \
-    serialprotocol.h \
-    robotsim.h \
-    robotdiag.h \
-    plot.h
+        serialprotocol.h \
+        csvwriter.h \
+    robotsim.hpp \
+    robotdiag.hpp
 
 FORMS += \
         mainwindow.ui
