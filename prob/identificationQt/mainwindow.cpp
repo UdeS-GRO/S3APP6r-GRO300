@@ -75,6 +75,15 @@ void MainWindow::receiveFromSerial(QString msg){
             msgReceived_ = msgBuffer_;
             onMessageReceived(msgReceived_);
 
+            // APP 6 :
+            s3gro::RobotState new_state;
+            new_state.id      = 0;
+            new_state.t       = jsonObj["time"].toDouble();
+            new_state.cur_cmd = jsonObj["cmd"].toDouble();
+            new_state.cur_pos = jsonObj["cur_pos"].toDouble();
+            new_state.cur_vel = jsonObj["cur_vel"].toDouble();
+
+            robot_diag_.push_event(new_state);
 
         }
         // Reinitialisation du message tampon
@@ -228,8 +237,6 @@ void MainWindow::onMessageReceived(QString msg){
     // Fonction appelee lors de reception de message
     // Decommenter la ligne suivante pour deverminage
     // qDebug().noquote() << "Message du Arduino: " << msg;
-
-    // APP 6 : TODO !
 }
 
 void MainWindow::onPeriodicUpdate(){
@@ -244,4 +251,5 @@ void MainWindow::on_csvOpenButton_clicked()
         tr("Fichier CSV (*.csv);;Tous fichiers (*)")
     );
     ui->label_pathCSV->setText(csv_filename_);
+    robot_diag_.set_csv_filename(csv_filename_.toStdString());
 }

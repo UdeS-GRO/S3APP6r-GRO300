@@ -25,11 +25,7 @@ RobotDiag::RobotDiag()
 // Écrit des statistiques à l'écran.
 RobotDiag::~RobotDiag()
 {
-    run_ = false;
-
-    robotsim::stop_and_join();
-
-    printf("Final vector size: %zu\n", data_.size());
+    stop_recording();
 }
 
 void RobotDiag::push_event(RobotState evt)
@@ -61,6 +57,11 @@ void RobotDiag::stop_recording()
     run_ = false;
 
     // TODO : Fermeture du fil.
+
+    robotsim::stop_and_join();
+
+    printf("Final vector size: %zu\n", data_.size());
+
 }
 
 // Fonction d'exportation vers CSV.
