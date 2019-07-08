@@ -27,14 +27,12 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
         serialprotocol.cpp \
-        csvwriter.cpp \
     robotdiag.cpp \
     robotsim.cpp
 
 HEADERS += \
         mainwindow.h \
         serialprotocol.h \
-        csvwriter.h \
     robotsim.hpp \
     robotdiag.hpp
 
