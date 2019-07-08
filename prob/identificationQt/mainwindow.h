@@ -15,7 +15,6 @@
 #include <QtCharts>
 
 // Propres librairies
-#include "csvwriter.h"
 #include "serialprotocol.h"
 
 // APP 6
@@ -53,6 +52,8 @@ private slots:
     void startSerialCom(QString);
     void sendPID();
 
+    void on_csvOpenButton_clicked();
+
 private:
     void connectTimers(int updateRate);
     void connectButtons();
@@ -65,7 +66,6 @@ private:
     void portCensus();
 
     bool record = false;
-    CsvWriter* writer_;
     QTimer updateTimer_;
     QString msgReceived_{""};
     QString msgBuffer_{""};
@@ -76,6 +76,7 @@ private:
     QChart chart_;
 
     // APP6
+    QString csv_filename_;
     s3gro::RobotDiag robot_diag_;
 
 

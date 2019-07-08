@@ -18,9 +18,6 @@ RobotDiag::RobotDiag()
                                       // les événements (10 ms) plus ou moins
                                       // un nombre aléatoire (3 ms).
 
-    // Indique que le système de diagnostic fonctionne (à mettre à 'false' lors
-    // de la fermeture pour interrompre le fil d'exportation).
-    run_ = true;
 
 }
 
@@ -44,12 +41,38 @@ void RobotDiag::push_event(RobotState evt)
 
 }
 
+void RobotDiag::set_csv_filename(const std::string& fname)
+{
+    csv_filename_ = fname;
+}
+
+void RobotDiag::start_recording()
+{
+    // Indique que le système de diagnostic fonctionne (à mettre à 'false' lors
+    // de la fermeture pour interrompre le fil d'exportation).
+    run_ = true;
+
+    // TODO : Lancement du fil.
+}
+
+void RobotDiag::stop_recording()
+{
+    // Indique que le système de diagnostic doit être arrêté.
+    run_ = false;
+
+    // TODO : Fermeture du fil.
+}
+
 // Fonction d'exportation vers CSV.
 // Doit être exécutée dans un fil séparé et écrire dans le fichier CSV
 // lorsque de nouvelles données sont disponibles dans queue_.
 void RobotDiag::export_loop()
 {
-    FILE* out = fopen("/tmp/robotdiag.csv", "w");
+    if (csv_filename_.empty()) {
+        csv_filename_ = "/tmp/robotdiag.csv";
+    }
+
+    FILE* out = fopen(csv_filename_.c_str(), "w");
 
     if (out == NULL) {
         printf("ERROR: Cannot open output file.\n");
@@ -59,7 +82,7 @@ void RobotDiag::export_loop()
     // En-tête du fichier CSV, respectez le format.
     fprintf(out, "motor_id;t;pos;vel;cmd\n");
 
-    // TODO: Synchronisation et écriture ici !
+    // TODO: Synchronisation et écriture.
     
     fclose(out);
 }

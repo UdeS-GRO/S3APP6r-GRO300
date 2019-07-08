@@ -75,10 +75,7 @@ void MainWindow::receiveFromSerial(QString msg){
             msgReceived_ = msgBuffer_;
             onMessageReceived(msgReceived_);
 
-            // Si les donnees doivent etre enregistrees
-            if(record){
-                writer_->write(jsonObj);
-            }
+
         }
         // Reinitialisation du message tampon
         msgBuffer_ = "";
@@ -219,22 +216,32 @@ void MainWindow::manageRecording(int stateButton){
 void MainWindow::startRecording(){
     // Fonction SLOT pour creation d'un nouveau fichier csv
     record = true;
-    writer_ = new CsvWriter("/home/pi/Desktop/");
-    ui->label_pathCSV->setText(writer_->folder+writer_->filename);
+    robot_diag_.start_recording();
 }
 
 void MainWindow::stopRecording(){
     // Fonction permettant d'arreter l'ecriture du CSV
     record = false;
-    delete writer_;
+    robot_diag_.stop_recording();
 }
 void MainWindow::onMessageReceived(QString msg){
     // Fonction appelee lors de reception de message
     // Decommenter la ligne suivante pour deverminage
     // qDebug().noquote() << "Message du Arduino: " << msg;
+
+    // APP 6 : TODO !
 }
 
 void MainWindow::onPeriodicUpdate(){
     // Fonction SLOT appelee a intervalle definie dans le constructeur
     qDebug().noquote() << "*";
+}
+
+void MainWindow::on_csvOpenButton_clicked()
+{
+    csv_filename_ = QFileDialog::getSaveFileName(this,
+        tr("Sauvegarder dans un fichier CSV"),
+        tr("Fichier CSV (*.csv);;Tous fichiers (*)")
+    );
+    ui->label_pathCSV->setText(csv_filename_);
 }

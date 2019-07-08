@@ -3,6 +3,7 @@
 
 #include <queue>
 #include <vector>
+#include <string>
 
 namespace s3gro
 {
@@ -24,6 +25,7 @@ namespace s3gro
         std::queue<RobotState>  queue_; // File d'attente à l'exportation.
         std::vector<RobotState> data_;  // Toutes les données reçues.
 
+        std::string csv_filename_;
 
     public:
         RobotDiag();
@@ -32,6 +34,15 @@ namespace s3gro
         // Fonction à appeler lors de la réception d'un nouveau message.
         void push_event(RobotState new_state);
 
+        // Fonction pour changer le nom de fichier de sauvegarde CSV.
+        void set_csv_filename(const std::string& fname);
+
+        // Fonction qui démarre le fil d'enregistrement
+        void start_recording();
+
+        // Fonction qui arrête le fil d'enregistrement
+        void stop_recording();
+    private:
         // Fonction à isoler dans un fil.
         void export_loop();
     };
