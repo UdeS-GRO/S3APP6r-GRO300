@@ -4,13 +4,13 @@ Ce dossier contient le code de départ pour la résolution de la problématique 
 l'APP 4 de la session 3 du programme de génie robotique.
 Il est très similaire au code fourni pour le projet de session, et dépend des
 mêmes librairies pour le code Arduino.
-Nous assumons donc que vous avez déjà correctement installé le contenu du
-dossier "librairieArduino/" du projet sur votre poste de travail ou RaspberryPi.
+Nous assumons donc que vous avez déjà correctement installé la librairie
+LibS3GRO sur votre poste de travail ou RaspberryPi.
 
 Pour résoudre la problématique, vous devrez travailler dans deux fichiers :
-ExemplePID.ino pour l'implémentation du PID et la communication des variables
-d'état sur l'Arduino, et robotdiag.cpp pour la partie synchronisation dans
-l'application Qt.
+main.cpp dans identificationArduino/src/ pour l'implémentation du PID et la
+communication des variables d'état sur l'Arduino, et robotdiag.cpp dans
+identificationQt/ pour la partie synchronisation dans l'application Qt.
 En effet, pour la remise de votre solution, vous n'aurez à transmettre que ces
 deux fichiers.
 
