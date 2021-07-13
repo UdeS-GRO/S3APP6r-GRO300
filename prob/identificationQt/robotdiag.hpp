@@ -32,10 +32,10 @@ namespace s3gro
         ~RobotDiag();
         
         // Fonction à appeler lors de la réception d'un nouveau message.
-        void push_event(RobotState new_state);
+        void push_event(RobotState new_robot_state);
 
         // Fonction pour changer le nom de fichier de sauvegarde CSV.
-        void set_csv_filename(const std::string& fname);
+        void set_csv_filename(const std::string& file_name);
 
         // Fonction qui démarre le fil d'enregistrement
         void start_recording();
