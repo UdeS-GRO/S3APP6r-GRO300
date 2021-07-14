@@ -21,7 +21,7 @@ N'oubliez pas le "." à la fin, il indique où clôner le dépôt.
 Dans ce cas-ci, il s'agit du dossier en cours ("\~/s3app6r/", où "\~" représente votre dossier personnel.
 
 ```
-$ git clone https://github.com/UdeS-GRO/S3APP6r-GRO300 .
+$ git clone https://github.com/UdeS-GRO/S3APP6r-GRO300.git
 ```
 
 ## Laboratoire 
@@ -35,6 +35,7 @@ problématique.
 L'environnement de départ pour la problématique se trouve dans le dossier [prob/](prob/).
 La structure est très similaire à ce qu'y vous a été fourni dans le cadre du
 projet de session.
+
 En effet, le code Arduino dépend des mêmes librairies pour la communication avec
 les moteurs, les capteurs, et le RaspberryPi par le port série.
 

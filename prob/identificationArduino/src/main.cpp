@@ -1,8 +1,9 @@
 /* 
- * GRO 302 - Conception d'un robot mobile
+ * GRO 300 - Systèmes d'exploitation et architecture des ordinateurs
  * Code de démarrage
- * Auteurs: Jean-Samuel Lauzon     
- * date: 1 mai 2019
+ * Auteurs: Jean-Samuel Lauzon    
+ * Modifier par: Justin Brulotte 
+ * Date: 12 juillet 2021
 */
 
 /*------------------------------ Librairies ---------------------------------*/
@@ -20,29 +21,28 @@
 #define PASPARTOUR      64          // Nombre de pas par tour du moteur
 #define RAPPORTVITESSE  50          // Rapport de vitesse du moteur
 
-/*---------------------------- variables globales ---------------------------*/
+/*---------------------------- Variables globales ---------------------------*/
 
-ArduinoX AX_;                       // objet arduinoX
-MegaServo servo_;                   // objet servomoteur
-VexQuadEncoder vexEncoder_;         // objet encodeur vex
-IMU9DOF imu_;                       // objet imu
-PID pid_;                           // objet PID
+ArduinoX AX_;                       // Objet arduinoX
+MegaServo servo_;                   // Objet servomoteur
+VexQuadEncoder vexEncoder_;         // Objet encodeur vex
+IMU9DOF imu_;                       // Objet imu
+PID pid_;                           // Objet PID
 
-volatile bool shouldSend_ = false;  // drapeau prêt à envoyer un message
-volatile bool shouldRead_ = false;  // drapeau prêt à lire un message
-volatile bool shouldPulse_ = false; // drapeau pour effectuer un pulse
-volatile bool isInPulse_ = false;   // drapeau pour effectuer un pulse
+volatile bool shouldSend_ = false;  // Drapeau prêt à envoyer un message
+volatile bool shouldRead_ = false;  // Drapeau prêt à lire un message
+volatile bool shouldPulse_ = false; // Drapeau pour effectuer un pulse
+volatile bool isInPulse_ = false;   // Drapeau pour effectuer un pulse
 
-SoftTimer timerSendMsg_;            // chronometre d'envoie de messages
-SoftTimer timerPulse_;              // chronometre pour la duree d'un pulse
+SoftTimer timerSendMsg_;            // Chronometre d'envoie de messages
+SoftTimer timerPulse_;              // Chronometre pour la duree d'un pulse
 
-uint16_t pulseTime_ = 0;            // temps dun pulse en ms
+uint16_t pulseTime_ = 0;            // Temps dun pulse en ms
 float pulsePWM_ = 0;                // Amplitude de la tension au moteur [-1,1]
 
-
-float Axyz[3];                      // tableau pour accelerometre
-float Gxyz[3];                      // tableau pour giroscope
-float Mxyz[3];                      // tableau pour magnetometre
+float Axyz[3];                      // Tableau pour accelerometre
+float Gxyz[3];                      // Tableau pour giroscope
+float Mxyz[3];                      // Tableau pour magnetometre
 
 /*------------------------- Prototypes de fonctions -------------------------*/
 
@@ -58,14 +58,15 @@ double PIDmeasurement();
 void PIDcommand(double cmd);
 void PIDgoalReached();
 
-/*---------------------------- fonctions "Main" -----------------------------*/
+/*---------------------------- Fonctions "Main" -----------------------------*/
 
 void setup() {
-  Serial.begin(BAUD);               // initialisation de la communication serielle
-  AX_.init();                       // initialisation de la carte ArduinoX 
-  imu_.init();                      // initialisation de la centrale inertielle
-  vexEncoder_.init(2,3);            // initialisation de l'encodeur VEX
-  // attache de l'interruption pour encodeur vex
+  Serial.begin(BAUD);               // Initialisation de la communication serielle
+  AX_.init();                       // Initialisation de la carte ArduinoX 
+  imu_.init();                      // Initialisation de la centrale inertielle
+  vexEncoder_.init(2,3);            // Initialisation de l'encodeur VEX
+
+  // Attache de l'interruption pour encodeur vex
   attachInterrupt(vexEncoder_.getPinInt(), []{vexEncoder_.isr();}, FALLING);
   
   // Chronometre envoie message
@@ -86,7 +87,7 @@ void setup() {
   pid_.setPeriod(200);
 }
 
-/* Boucle principale (infinie)*/
+/* Boucle principale (infinie) */
 void loop() {
 
   if(shouldRead_){
@@ -99,22 +100,22 @@ void loop() {
     startPulse();
   }
 
-  // mise a jour des chronometres
+  // Mise à jour des chronometres
   timerSendMsg_.update();
   timerPulse_.update();
   
-  // mise à jour du PID
+  // Mise à jour du PID
   pid_.run();
 }
 
 /*---------------------------Definition de fonctions ------------------------*/
 
-void serialEvent(){shouldRead_ = true;}
+void serialEvent() { shouldRead_ = true; }
 
-void timerCallback(){shouldSend_ = true;}
+void timerCallback() { shouldSend_ = true; }
 
-void startPulse(){
-  /* Demarrage d'un pulse */
+/* Demarrage d'un pulse */
+void startPulse() {
   timerPulse_.setDelay(pulseTime_);
   timerPulse_.enable();
   timerPulse_.setRepetition(1);
@@ -124,16 +125,16 @@ void startPulse(){
   isInPulse_ = true;
 }
 
-void endPulse(){
-  /* Rappel du chronometre */
+/* Rappel du chronometre */
+void endPulse() {
   AX_.setMotorPWM(0,0);
   AX_.setMotorPWM(1,0);
   timerPulse_.disable();
   isInPulse_ = false;
 }
 
-void sendMsg(){
-  /* Envoit du message Json sur le port seriel */
+/* Envoit du message Json sur le port seriel */
+void sendMsg() {
   StaticJsonDocument<500> doc;
   // Elements du message
 
@@ -158,6 +159,7 @@ void sendMsg(){
 
   // Serialisation
   serializeJson(doc, Serial);
+
   // Envoit
   Serial.println();
   shouldSend_ = false;
@@ -181,21 +183,22 @@ void readMsg(){
   
   // Analyse des éléments du message message
   parse_msg = doc["pulsePWM"];
-  if(!parse_msg.isNull()){
+  if (!parse_msg.isNull()) {
      pulsePWM_ = doc["pulsePWM"].as<float>();
   }
 
   parse_msg = doc["pulseTime"];
-  if(!parse_msg.isNull()){
+  if (!parse_msg.isNull()) {
      pulseTime_ = doc["pulseTime"].as<float>();
   }
 
   parse_msg = doc["pulse"];
-  if(!parse_msg.isNull()){
+  if (!parse_msg.isNull()) {
      shouldPulse_ = doc["pulse"];
   }
+
   parse_msg = doc["setGoal"];
-  if(!parse_msg.isNull()){
+  if (!parse_msg.isNull()) {
     pid_.disable();
     pid_.setGains(doc["setGoal"][0], doc["setGoal"][1], doc["setGoal"][2]);
     pid_.setEpsilon(doc["setGoal"][3]);
@@ -204,14 +207,13 @@ void readMsg(){
   }
 }
 
-
 // Fonctions pour le PID
 double PIDmeasurement(){
-  // To do
+  // TODO
 }
 void PIDcommand(double cmd){
-  // To do
+  // TODO
 }
 void PIDgoalReached(){
-  // To do
+  // TODO
 }
