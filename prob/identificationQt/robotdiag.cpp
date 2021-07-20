@@ -10,17 +10,7 @@
 
 using namespace s3gro;
 
-RobotDiag::RobotDiag()
-{
-    // Démarre le simulateur:
-    // TODO: Supprimer cette ligne si vous testez avec un seul moteur
-    robotsim::init(this, 8, 10, 3);   // Spécifie le nombre de moteurs à 
-                                      // simuler (8) et le délai moyen entre
-                                      // les événements (10 ms) plus ou moins
-                                      // un nombre aléatoire (3 ms).
-
-
-}
+RobotDiag::RobotDiag(){}
 
 // Le destructeur sera normalement appellé à la fermeture de l'application.
 // Écrit des statistiques à l'écran.
@@ -44,6 +34,13 @@ void RobotDiag::start_recording() {
     // Indique que le système de diagnostic fonctionne (à mettre à 'false' lors
     // de la fermeture pour interrompre le fil d'exportation).
     run_ = true;
+
+    // Démarre le simulateur:
+    // TODO: Supprimer cette ligne si vous testez avec un seul moteur
+    robotsim::init(this, 8, 10, 3);   // Spécifie le nombre de moteurs à 
+                                      // simuler (8) et le délai moyen entre
+                                      // les événements (10 ms) plus ou moins
+                                      // un nombre aléatoire (3 ms).
 
     // TODO : Lancement du fil.
 }
