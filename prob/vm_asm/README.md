@@ -8,7 +8,7 @@ laboratoire.
 Lisez d'abord le code contenu dans `machine.cpp` pour connaître les variables
 d'état simulées. 
 Ensuite, vous pouvez regarder l'implémentation partielle d'un PID dans le
-fichier `test.pid`.
+fichier `pid.ams`.
 
 Pour tester votre programme, vous pouvez utiliser l'exécutable de cette façon :
 ```
